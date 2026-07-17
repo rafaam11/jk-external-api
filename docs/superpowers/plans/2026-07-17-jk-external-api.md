@@ -1,8 +1,8 @@
-# K-Source Atlas Implementation Plan
+# JK External API Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build and verify the complete K-Source Atlas static site, shared catalog, read-only preview Worker, and deployment automation described in the approved design.
+**Goal:** Build and verify the complete JK External API static site, shared catalog, read-only preview Worker, and deployment automation described in the approved design.
 
 **Architecture:** A pnpm workspace separates a Zod-validated catalog from an Astro/Preact static site and a Hono Cloudflare Worker. Generated data flows one way from upstream k-skill metadata plus manual overrides into catalog JSON, then into pre-rendered pages; live previews are optional isolated widgets using shared contracts.
 
@@ -10,7 +10,7 @@
 
 ## Global Constraints
 
-- GitHub Pages base path is `/k-skill-application/`.
+- GitHub Pages base path is `/jk-external-api/`.
 - The catalog contains 14 source groups, six blueprints, and a complete generated k-skill snapshot.
 - All relationships are validated ID arrays; no database or write API exists.
 - Secrets are server environment variables only and never enter site bundles or examples.

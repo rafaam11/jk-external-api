@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { PreviewAdapterId } from "@k-source-atlas/catalog";
+import type { PreviewAdapterId } from "@jk-external-api/catalog";
 
 const coordinate = z.coerce.number().finite();
 const shortText = z.string().trim().min(1).max(80);
@@ -23,7 +23,7 @@ export function queryObject(url: URL): Record<string, string> {
 }
 
 export function normalizedCacheUrl(url: URL): string {
-  const normalized = new URL(`https://cache.k-source-atlas.invalid${url.pathname}`);
+  const normalized = new URL(`https://cache.jk-external-api.invalid${url.pathname}`);
   [...url.searchParams.entries()].sort(([leftKey, leftValue], [rightKey, rightValue]) => leftKey.localeCompare(rightKey) || leftValue.localeCompare(rightValue)).forEach(([key, value]) => normalized.searchParams.append(key, value.trim()));
   return normalized.toString();
 }

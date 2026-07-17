@@ -293,12 +293,20 @@
     "category": "health",
     "upstreamPath": "emergency-room-beds/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/emergency-room-beds/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "e-gen",
+      "data-go-kr"
+    ],
     "runtimes": [
       "Node.js"
     ],
     "auth": [],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "xml",
+      "geospatial"
+    ]
   },
   {
     "id": "express-bus-booking",
@@ -322,13 +330,21 @@
     "category": "utility",
     "upstreamPath": "fine-dust-location/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/fine-dust-location/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "airkorea",
+      "data-go-kr"
+    ],
     "runtimes": [
       "Python",
       "Shell"
     ],
     "auth": [],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "xml",
+      "geospatial"
+    ]
   },
   {
     "id": "flight-ticket-search",
@@ -697,12 +713,18 @@
     "category": "food",
     "upstreamPath": "kakao-bar-nearby/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/kakao-bar-nearby/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "kakao-local-mobility"
+    ],
     "runtimes": [
       "Node.js"
     ],
     "auth": [],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "geospatial"
+    ]
   },
   {
     "id": "kakao-map",
@@ -711,7 +733,9 @@
     "category": "transit",
     "upstreamPath": "kakao-map/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/kakao-map/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "kakao-local-mobility"
+    ],
     "runtimes": [
       "Python",
       "Shell"
@@ -720,7 +744,12 @@
       "KAKAO_REST_API_KEY",
       "KSKILL_PROXY_BASE_URL"
     ],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "geospatial",
+      "sdk"
+    ]
   },
   {
     "id": "kakaotalk-mac",
@@ -809,7 +838,10 @@
     "category": "weather",
     "upstreamPath": "korea-weather/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/korea-weather/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "weather-kma",
+      "data-go-kr"
+    ],
     "runtimes": [
       "Shell"
     ],
@@ -817,7 +849,11 @@
       "KMA_OPEN_API_KEY",
       "KSKILL_PROXY_BASE_URL"
     ],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "xml"
+    ]
   },
   {
     "id": "korean-character-count",
@@ -1036,7 +1072,10 @@
     "category": "transit",
     "upstreamPath": "korean-transit-route/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/korean-transit-route/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "tago",
+      "topis"
+    ],
     "runtimes": [
       "Python",
       "Shell"
@@ -1046,7 +1085,12 @@
       "KSKILL_PROXY_BASE_URL",
       "ODSAY_API_KEY"
     ],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "xml",
+      "geospatial"
+    ]
   },
   {
     "id": "kosis-stats",
@@ -1055,7 +1099,9 @@
     "category": "data",
     "upstreamPath": "kosis-stats/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/kosis-stats/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "kosis"
+    ],
     "runtimes": [
       "Node.js",
       "Python"
@@ -1065,7 +1111,11 @@
       "KSKILL_KOSIS_API_KEY",
       "KSKILL_PROXY_BASE_URL"
     ],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "csv"
+    ]
   },
   {
     "id": "kr-whois-lookup",
@@ -1156,7 +1206,9 @@
     "category": "transit",
     "upstreamPath": "legacy/unsupported-skills/naver-map-route/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/legacy/unsupported-skills/naver-map-route/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "naver-search-map"
+    ],
     "runtimes": [
       "Python",
       "Shell"
@@ -1166,7 +1218,12 @@
       "NAVER_MAP_CLIENT_ID",
       "NAVER_MAP_CLIENT_SECRET"
     ],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "geospatial",
+      "sdk"
+    ]
   },
   {
     "id": "lh-notice-search",
@@ -1223,12 +1280,19 @@
     "category": "business",
     "upstreamPath": "localdata-business-status/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/localdata-business-status/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "localdata"
+    ],
     "runtimes": [
       "Python"
     ],
     "auth": [],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "xml",
+      "csv"
+    ]
   },
   {
     "id": "lotto-results",
@@ -1505,12 +1569,19 @@
     "category": "convenience",
     "upstreamPath": "parking-lot-search/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/parking-lot-search/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "data-go-kr",
+      "kakao-local-mobility"
+    ],
     "runtimes": [
       "Node.js"
     ],
     "auth": [],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "geospatial"
+    ]
   },
   {
     "id": "popbill",
@@ -1536,14 +1607,21 @@
     "category": "convenience",
     "upstreamPath": "public-restroom-nearby/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/public-restroom-nearby/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "data-go-kr",
+      "kakao-local-mobility"
+    ],
     "runtimes": [
       "Node.js"
     ],
     "auth": [
       "KAKAO_REST_API_KEY"
     ],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "geospatial"
+    ]
   },
   {
     "id": "real-estate-search",
@@ -1675,14 +1753,21 @@
     "category": "transit",
     "upstreamPath": "seoul-subway-arrival/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/seoul-subway-arrival/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "seoul-open-data",
+      "topis"
+    ],
     "runtimes": [
       "Shell"
     ],
     "auth": [
       "KSKILL_PROXY_BASE_URL"
     ],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "xml"
+    ]
   },
   {
     "id": "sh-notice-search",
@@ -1794,12 +1879,19 @@
     "category": "utility",
     "upstreamPath": "zipcode-search/SKILL.md",
     "upstreamUrl": "https://github.com/NomaDamas/k-skill/blob/main/zipcode-search/SKILL.md",
-    "sourceIds": [],
+    "sourceIds": [
+      "juso"
+    ],
     "runtimes": [
       "Python",
       "Shell"
     ],
     "auth": [],
-    "technologyIds": []
+    "technologyIds": [
+      "rest-api",
+      "json",
+      "xml",
+      "geospatial"
+    ]
   }
 ]

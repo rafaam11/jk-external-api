@@ -1,8 +1,8 @@
-# K-Source Atlas Design
+# JK External API Design
 
 ## Product
 
-K-Source Atlas is a read-only public index that connects Korean external data sources, the data they expose, useful technologies, k-skill entries, and six practical project blueprints. The deployed site lives below `/k-skill-application/`; a separate Cloudflare Worker provides six allow-listed live previews without exposing secrets or becoming a generic proxy.
+JK External API is a read-only public index that connects Korean external data sources, the data they expose, useful technologies, k-skill entries, and six practical project blueprints. The deployed site lives below `/jk-external-api/`; a separate Cloudflare Worker provides six allow-listed live previews without exposing secrets or becoming a generic proxy.
 
 ## Boundaries
 
@@ -32,4 +32,3 @@ Static content never depends on the Worker. A preview failure renders its stable
 ## Verification and delivery
 
 Vitest covers schemas, catalog relationships, synchronization, and Worker adapters. Playwright covers search and compound filters, deterministic selection, direct routes, four-item comparison, copy controls, fallback widgets, 360px layout, keyboard use, and critical axe findings. CI runs lint, typecheck, tests, build, internal-link checks, and E2E. Main deploys the static artifact through GitHub Pages; Worker deployment remains a production-environment-approved manual workflow. A Monday 09:00 KST workflow proposes reviewed catalog changes and opens issues for outages.
-

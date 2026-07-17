@@ -1,5 +1,5 @@
 ---
-import { catalog } from "@k-source-atlas/catalog";
+import { catalog } from "@jk-external-api/catalog";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PreviewWidget from "../../components/PreviewWidget";
 import { StatusMark } from "../../components/StatusMark";
@@ -16,7 +16,7 @@ const technologies = catalog.technologies.filter((technology) => source.technolo
     <header class="detail-header"><div><a class="back-link" href={`${base}/sources/`}>← 정보원 기록</a><p class="eyebrow">{source.id}</p><h1>{source.name}</h1><p>{source.summary}</p></div><div class="detail-stamp"><span>VERIFIED</span><strong>{source.lastVerifiedAt}</strong><small>{source.operator}</small></div></header>
     <div class="detail-grid"><section><h2>데이터 명세</h2>{source.data.map((dataset) => <div class="data-sheet"><h3>{dataset.name}</h3><ul>{dataset.fields.map((field) => <li>{field}</li>)}</ul></div>)}</section><section><h2>접근 조건</h2><dl class="fact-list"><div><dt>제공 방식</dt><dd>{source.delivery.join(" · ")}</dd></div><div><dt>형식</dt><dd>{source.formats.join(" · ")}</dd></div><div><dt>인증</dt><dd><StatusMark kind="auth" value={source.auth} /></dd></div><div><dt>비용</dt><dd>{source.cost}</dd></div><div><dt>CORS</dt><dd>{source.cors}</dd></div><div><dt>갱신</dt><dd>{source.updateFrequency}</dd></div><div><dt>지역</dt><dd>{source.geography.join(" · ")}</dd></div></dl></section></div>
     <section class="link-register"><h2>공식 기록</h2><a href={source.officialUrl}>공식 서비스 <span>↗</span></a><a href={source.docsUrl}>개발 문서 <span>↗</span></a><a href={source.termsUrl}>이용조건 <span>↗</span></a></section>
-    {source.previewAdapterId && <PreviewWidget client:visible adapter={source.previewAdapterId} sourceId={source.id} officialUrl={source.officialUrl} apiBase={import.meta.env.PUBLIC_PREVIEW_API_BASE_URL} />}
+    {source.previewAdapterId && <PreviewWidget client:load adapter={source.previewAdapterId} sourceId={source.id} officialUrl={source.officialUrl} apiBase={import.meta.env.PUBLIC_PREVIEW_API_BASE_URL} />}
     <section class="relation-section"><h2>연결 기록</h2><div class="relation-columns"><div><h3>기술</h3>{technologies.map((item) => <a href={`${base}/technologies/#${item.id}`}>{item.name}</a>)}</div><div><h3>k-skill</h3>{skills.length ? skills.map((item) => <a href={`${base}/skills/${item.id}/`}>{item.name}</a>) : <p>직접 연결된 스킬 보정 정보가 아직 없습니다.</p>}</div><div><h3>청사진</h3>{blueprints.map((item) => <a href={`${base}/blueprints/${item.id}/`}>{item.name}</a>)}</div></div></section>
   </article>
 </BaseLayout>

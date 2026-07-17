@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
-import type { PreviewAdapterId, PreviewErrorCode, PreviewResponse } from "@k-source-atlas/catalog";
+import type { PreviewAdapterId, PreviewErrorCode, PreviewResponse } from "@jk-external-api/catalog";
 import { adapters, type SecretName } from "./adapters.js";
 import { normalizedCacheUrl, queryObject, querySchemas } from "./query.js";
 import { AdapterError } from "./upstream.js";

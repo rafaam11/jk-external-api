@@ -3,7 +3,7 @@ import { defineConfig } from "astro/config";
 
 export default defineConfig({
   site: "https://rafaam11.github.io",
-  base: "/k-skill-application",
+  base: "/jk-external-api",
   output: "static",
   integrations: [preact()],
 });

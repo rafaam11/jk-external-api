@@ -1,5 +1,5 @@
 import { XMLParser } from "fast-xml-parser";
-import type { PreviewAdapterId } from "@k-source-atlas/catalog";
+import type { PreviewAdapterId } from "@jk-external-api/catalog";
 import { AdapterError, asRecord, at, fetchText, list, parseJson } from "./upstream.js";
 
 export type SecretName = "DATA_GO_KR_API_KEY" | "KAKAO_REST_API_KEY" | "KOPIS_SERVICE_KEY";

@@ -1,5 +1,5 @@
 ---
-import { catalog } from "@k-source-atlas/catalog";
+import { catalog } from "@jk-external-api/catalog";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import CopyCode from "../../components/CopyCode";
 export function getStaticPaths() { return catalog.blueprints.map((blueprint) => ({ params: { id: blueprint.id }, props: { blueprint } })); }

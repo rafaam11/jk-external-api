@@ -1,12 +1,12 @@
 ---
-import { catalog } from "@k-source-atlas/catalog";
+import { catalog } from "@jk-external-api/catalog";
 import AtlasExplorer from "../components/AtlasExplorer";
 import BaseLayout from "../layouts/BaseLayout.astro";
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 <BaseLayout>
   <section class="hero">
-    <div class="hero-index"><span>공공 기록 색인</span><span>KS-A / 2026</span></div>
+    <div class="hero-index"><span>공공 기록 색인</span><span>JK-EA / 2026</span></div>
     <div class="hero-copy"><p class="eyebrow">정보원에서 실제 프로젝트까지</p><h1>한국의 외부 데이터를<br /><em>어디서, 어떻게</em> 쓸지 찾습니다.</h1><p>공식 정보원 14곳과 k-skill {catalog.skills.length}개, 생활 문제 청사진 6개를 하나의 관계 노선도로 연결했습니다.</p></div>
     <dl class="hero-register"><div><dt>정보원</dt><dd>14</dd></div><div><dt>k-skill</dt><dd>{catalog.skills.length}</dd></div><div><dt>청사진</dt><dd>06</dd></div><div><dt>쓰기 API</dt><dd>00</dd></div></dl>
   </section>

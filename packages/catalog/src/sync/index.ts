@@ -72,7 +72,7 @@ export function mergeSkills(upstream: Skill[], overrides: SkillOverrides): Skill
 }
 
 async function checkedFetch(fetcher: typeof fetch, url: string): Promise<Response> {
-  const response = await fetcher(url, { headers: { Accept: "application/vnd.github+json", "User-Agent": "k-source-atlas-sync" } });
+  const response = await fetcher(url, { headers: { Accept: "application/vnd.github+json", "User-Agent": "jk-external-api-sync" } });
   if (response.status === 403 && response.headers.get("x-ratelimit-remaining") === "0") throw new GitHubRateLimitError();
   if (!response.ok) throw new Error(`GitHub request failed (${response.status}) for ${url}`);
   return response;

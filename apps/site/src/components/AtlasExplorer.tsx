@@ -1,5 +1,5 @@
 import { useMemo, useState } from "preact/hooks";
-import type { Source, Technology } from "@k-source-atlas/catalog";
+import type { Source, Technology } from "@jk-external-api/catalog";
 import { addToComparison, filterSources, removeFromComparison, type SourceFilters } from "../lib/discovery.js";
 import { StatusMark } from "./StatusMark.js";
 

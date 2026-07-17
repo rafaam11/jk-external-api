@@ -1,0 +1,45 @@
+name: Weekly catalog watch
+on:
+  schedule:
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 10.28.2 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Refresh upstream k-skill snapshot
+        run: pnpm --filter @jk-external-api/catalog sync
+      - name: Propose reviewed catalog change
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- packages/catalog/src/generated/skills.json; then exit 0; fi
+          branch="automation/k-skill-snapshot-$(date +%Y%m%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add packages/catalog/src/generated/skills.json
+          git commit -m "chore: refresh k-skill snapshot"
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" --title "chore: refresh k-skill snapshot" --body "주간 동기화가 upstream k-skill 변경을 감지했습니다. 분류, 귀속, 관계 보정을 사람이 검토한 뒤 병합하세요."
+      - name: Check official links
+        id: links
+        continue-on-error: true
+        run: pnpm exec tsx scripts/check-external-health.ts
+        env:
+          PUBLIC_PREVIEW_API_BASE_URL: ${{ vars.PUBLIC_PREVIEW_API_BASE_URL }}
+      - name: Open outage issue
+        if: ${{ steps.links.outcome == 'failure' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue create --title "주간 외부 정보원 점검 실패 ($(date +%Y-%m-%d))" --body "공식 링크 또는 운영 미리보기 점검이 실패했습니다. workflow 로그에서 실패 표면을 확인하세요. 자동 공개 반영은 수행하지 않았습니다."

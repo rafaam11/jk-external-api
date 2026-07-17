@@ -1,5 +1,5 @@
 import Fuse from "fuse.js";
-import type { Source } from "@k-source-atlas/catalog";
+import type { Source } from "@jk-external-api/catalog";
 
 export type SourceFilters = {
   query?: string;

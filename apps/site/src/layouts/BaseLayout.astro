@@ -2,7 +2,7 @@
 import "../styles/global.css";
 
 interface Props { title?: string; description?: string }
-const { title = "K-Source Atlas", description = "한국에서 쓸 수 있는 외부 정보원과 k-skill을 연결해 탐색합니다." } = Astro.props;
+const { title = "JK External API", description = "한국에서 쓸 수 있는 외부 정보원과 k-skill을 연결해 탐색합니다." } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const current = Astro.url.pathname;
 const nav = [
@@ -17,14 +17,14 @@ const nav = [
     <meta name="description" content={description} />
     <meta name="theme-color" content="#FBFBFC" />
     <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
-    <title>{title === "K-Source Atlas" ? title : `${title} — K-Source Atlas`}</title>
+    <title>{title === "JK External API" ? title : `${title} — JK External API`}</title>
   </head>
   <body>
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
     <header class="site-header">
-      <a class="wordmark" href={`${base}/`} aria-label="K-Source Atlas 홈">
+      <a class="wordmark" href={`${base}/`} aria-label="JK External API 홈">
         <span class="wordmark-mark" aria-hidden="true">KS</span>
-        <span><strong>K-Source Atlas</strong><small>한국 외부 정보원 색인</small></span>
+        <span><strong>JK External API</strong><small>한국 외부 정보원 색인</small></span>
       </a>
       <nav aria-label="주요 메뉴">
         {nav.map(([href, label]) => <a href={`${base}${href}`} aria-current={current.startsWith(`${base}${href}`) ? "page" : undefined}>{label}</a>)}
@@ -32,8 +32,8 @@ const nav = [
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer">
-      <p><strong>K-Source Atlas</strong> · 원문을 복제하지 않는 읽기 전용 공공 기록 색인</p>
-      <p>각 정보의 이용조건과 최신 상태는 연결된 공식 원문에서 다시 확인하세요. <a href="https://github.com/rafaam11/k-skill-application">MIT 공개 저장소</a></p>
+      <p><strong>JK External API</strong> · 원문을 복제하지 않는 읽기 전용 공공 기록 색인</p>
+      <p>각 정보의 이용조건과 최신 상태는 연결된 공식 원문에서 다시 확인하세요. <a href="https://github.com/rafaam11/jk-external-api">MIT 공개 저장소</a></p>
     </footer>
   </body>
 </html>

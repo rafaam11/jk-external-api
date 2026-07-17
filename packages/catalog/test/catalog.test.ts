@@ -20,6 +20,14 @@ describe("curated catalog", () => {
         expect(catalog.sources.find(({ id }) => id === sourceId)?.blueprintIds).toContain(blueprint.id);
       }
     }
+
+    const linkedSkills = catalog.skills.filter(({ sourceIds }) => sourceIds.length > 0);
+    expect(linkedSkills.length).toBeGreaterThanOrEqual(12);
+    for (const skill of linkedSkills) {
+      for (const sourceId of skill.sourceIds) {
+        expect(catalog.sources.find(({ id }) => id === sourceId)?.skillIds).toContain(skill.id);
+      }
+    }
   });
 
   it("keeps all secret-bearing examples on server environment variables", () => {

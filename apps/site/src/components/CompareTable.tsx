@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "preact/hooks";
-import type { Source, Technology } from "@k-source-atlas/catalog";
+import type { Source, Technology } from "@jk-external-api/catalog";
 import { addToComparison, removeFromComparison } from "../lib/discovery.js";
 
 type Props = { sources: Source[]; technologies: Technology[]; initialIds: string[]; base: string };

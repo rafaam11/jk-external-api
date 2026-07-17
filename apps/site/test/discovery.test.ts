@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Source } from "@k-source-atlas/catalog";
+import type { Source } from "@jk-external-api/catalog";
 import { addToComparison, filterSources, removeFromComparison } from "../src/lib/discovery.js";
 
 const sources = [

@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "k-source-atlas-preview",
+  "name": "jk-external-api-preview",
   "main": "src/index.ts",
   "compatibility_date": "2026-07-17",
   "compatibility_flags": ["nodejs_compat"],
@@ -15,7 +15,7 @@
   "observability": { "enabled": true, "head_sampling_rate": 1 },
   "env": {
     "production": {
-      "name": "k-source-atlas-preview",
+      "name": "jk-external-api-preview",
       "vars": {
         "ALLOWED_ORIGINS": "https://rafaam11.github.io",
         "WORKER_VERSION": "0.1.0"

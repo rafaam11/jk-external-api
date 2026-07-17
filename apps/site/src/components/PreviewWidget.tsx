@@ -1,5 +1,5 @@
 import { useState } from "preact/hooks";
-import type { PreviewAdapterId, PreviewResponse } from "@k-source-atlas/catalog";
+import type { PreviewAdapterId, PreviewResponse } from "@jk-external-api/catalog";
 
 type Props = { adapter: PreviewAdapterId; sourceId: string; officialUrl: string; apiBase?: string };
 
