@@ -33,7 +33,7 @@ export const sourceSchema = z.object({
   geography: z.array(z.enum(["nationwide", "seoul", "regional", "global"])).min(1),
   termsUrl: z.url(),
   technologyIds: z.array(id),
-  atlas: z.object({
+  home: z.object({
     x: z.number().min(0).max(100),
     y: z.number().min(0).max(100),
     lines: z.array(z.string().min(1)).min(1),

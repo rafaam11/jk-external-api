@@ -7,7 +7,7 @@ JK External API is a read-only public index that connects Korean external data s
 ## Boundaries
 
 - `packages/catalog` owns validated source, skill, blueprint, technology, and preview contracts plus generated catalog data.
-- `apps/site` owns the Astro static site and Preact interactions for search, filtering, the Atlas, comparison, and previews.
+- `apps/site` owns the Astro static site and Preact interactions for search, filtering, the home relationship view, comparison, and previews.
 - `apps/preview-worker` owns Hono routes, query validation, upstream adapters, normalized responses, caching, CORS, and rate limiting.
 - All relationships use IDs validated by Zod. No database, account, location permission, analytics, cookie, CMS, write API, or user-specific state is introduced.
 
@@ -17,9 +17,9 @@ The first release contains exactly 14 curated source groups, six blueprints, and
 
 ## Site experience
 
-The home route is a deterministic 12-column atlas: a two-column source rail, seven-column SVG route map, and three-column selection dossier. Explicit `atlas.x`, `atlas.y`, and `atlas.lines` values make the graph stable. On narrow screens, the SVG yields to an equivalent accessible list ordered search → domain → source → detail. Search spans names, summaries, keywords, fields, and technologies; filters cover domain, delivery, authentication, freshness, and geography. Comparison accepts at most four sources.
+The home route is a deterministic 12-column layout: a two-column source rail, seven-column SVG route map, and three-column selection dossier. Explicit `home.x`, `home.y`, and `home.lines` values make the graph stable. On narrow screens, the SVG yields to an equivalent accessible list ordered search → domain → source → detail. Search spans names, summaries, keywords, fields, and technologies; filters cover domain, delivery, authentication, freshness, and geography. Comparison accepts at most four sources.
 
-The visual system resembles a Korean public-record index: white record stock (`#FBFBFC`), ink (`#141B27`), public blue (`#2357A5`), field green (`#687C46`), exception red (`#BA3A36`), and ruled pale blue (`#EEF2F7`). MaruBuri is the restrained display face, Pretendard Variable the body face, and IBM Plex Mono the catalog utility face. The signature element is the Atlas itself: line colors represent domains while every state also has an icon and text label. Corners and dividers remain square and document-like; motion is limited to route drawing and selection and disappears under reduced motion.
+The visual system resembles a Korean public-record index: white record stock (`#FBFBFC`), ink (`#141B27`), public blue (`#2357A5`), field green (`#687C46`), exception red (`#BA3A36`), and ruled pale blue (`#EEF2F7`). MaruBuri is the restrained display face, Pretendard Variable the body face, and IBM Plex Mono the catalog utility face. The signature element is the home route's relationship map itself: line colors represent domains while every state also has an icon and text label. Corners and dividers remain square and document-like; motion is limited to route drawing and selection and disappears under reduced motion.
 
 ## Preview service
 

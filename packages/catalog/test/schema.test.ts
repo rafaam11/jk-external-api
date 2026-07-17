@@ -20,7 +20,7 @@ const source = {
   geography: ["nationwide"],
   termsUrl: "https://www.weather.go.kr/w/guide/copyright.do",
   technologyIds: ["rest-api"],
-  atlas: { x: 40, y: 30, lines: ["weather"] },
+  home: { x: 40, y: 30, lines: ["weather"] },
   previewAdapterId: "weather",
   skillIds: [],
   blueprintIds: ["commute-condition"],
@@ -55,7 +55,7 @@ describe("catalog schema", () => {
   it.each([
     ["invalid URL", { ...source, officialUrl: "weather" }],
     ["invalid date", { ...source, lastVerifiedAt: "17-07-2026" }],
-    ["invalid coordinates", { ...source, atlas: { ...source.atlas, x: 101 } }],
+    ["invalid coordinates", { ...source, home: { ...source.home, x: 101 } }],
   ])("rejects %s", (_label, invalidSource) => {
     expect(() => catalogSchema.parse({ sources: [invalidSource], skills: [], blueprints: [blueprint], technologies: [technology] })).toThrow();
   });

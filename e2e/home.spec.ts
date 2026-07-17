@@ -17,7 +17,7 @@ test("registry categories use Korean labels without changing filter values", asy
   await expect(category.getByRole("option", { name: "법률 문서" })).toHaveAttribute("value", "legal-documents");
 });
 
-test("search, compound filters, and Atlas selection stay connected", async ({ page }) => {
+test("search, compound filters, and home selection stay connected", async ({ page }) => {
   await page.goto("./");
   await page.getByLabel("통합 검색").fill("미세먼지");
   await expect(page.getByRole("table", { name: "정보원 레지스트리" }).getByRole("link", { name: "에어코리아" })).toBeVisible();
@@ -56,11 +56,11 @@ test("blueprint code can be copied", async ({ page, context }) => {
   expect(await page.evaluate(() => navigator.clipboard.readText())).toContain("process.env.DATA_GO_KR_API_KEY");
 });
 
-test("keyboard users can select an Atlas node", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name === "mobile", "SVG Atlas is intentionally replaced by a list on mobile");
+test("keyboard users can select a home node", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "SVG home map is intentionally replaced by a list on mobile");
   await page.goto("./");
   await page.getByRole("button", { name: "관계도" }).click();
-  const node = page.locator(".atlas-node").filter({ hasText: "에어코리아" });
+  const node = page.locator(".home-node").filter({ hasText: "에어코리아" });
   await node.focus();
   await page.keyboard.press("Enter");
   await expect(node).toHaveAttribute("aria-pressed", "true");
@@ -70,7 +70,7 @@ test("mobile uses the equivalent text list", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile", "Mobile-only layout assertion");
   await page.goto("./");
   await page.getByRole("button", { name: "관계도" }).click();
-  await expect(page.locator(".atlas-map")).toBeHidden();
+  await expect(page.locator(".home-map")).toBeHidden();
   await expect(page.getByLabel("노선도의 텍스트 대체 목록")).toBeVisible();
 });
 
@@ -120,14 +120,14 @@ test("browser back closes a row dialog and restores its trigger focus", async ({
   await expect(trigger).toBeFocused();
 });
 
-test("home defaults to the list and keeps Atlas as a filtered relationship view", async ({ page }, testInfo) => {
+test("home defaults to the list and keeps the relationship view filtered", async ({ page }, testInfo) => {
   await page.goto("./");
   await expect(page.getByRole("table", { name: "정보원 레지스트리" })).toBeVisible();
   await page.getByLabel("통합 검색").fill("미세먼지");
   await page.getByRole("button", { name: "관계도" }).click();
   if (testInfo.project.name === "mobile") await expect(page.getByLabel("노선도의 텍스트 대체 목록")).toBeVisible();
   else await expect(page.getByLabel("한국 외부 정보원 관계 노선도")).toBeVisible();
-  await expect(page.locator(".atlas-node.active")).toHaveCount(1);
+  await expect(page.locator(".home-node.active")).toHaveCount(1);
 });
 
 test("desktop registry keeps a one-line title and at least ten rows above the fold", async ({ page }, testInfo) => {

@@ -1,6 +1,6 @@
 ---
 import { catalog } from "@jk-external-api/catalog";
-import AtlasExplorer from "../components/AtlasExplorer";
+import HomeExplorer from "../components/HomeExplorer";
 import BaseLayout from "../layouts/BaseLayout.astro";
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
@@ -9,7 +9,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     <div><p class="eyebrow">Public data registry / JK-EA 2026</p><h1>한국 외부 정보원 색인</h1><p>공식 정보원에서 k-skill과 생활 문제 청사진까지, 검증된 연결 기록을 밀도 있게 조회합니다.</p></div>
     <dl class="registry-summary"><div><dt>정보원</dt><dd>14</dd></div><div><dt>k-skill</dt><dd>{catalog.skills.length}</dd></div><div><dt>청사진</dt><dd>06</dd></div><div><dt>쓰기 API</dt><dd>00</dd></div></dl>
   </header>
-  <AtlasExplorer client:load sources={catalog.sources} skills={catalog.skills} blueprints={catalog.blueprints} technologies={catalog.technologies} base={base} />
+  <HomeExplorer client:load sources={catalog.sources} skills={catalog.skills} blueprints={catalog.blueprints} technologies={catalog.technologies} base={base} />
   <section class="home-blueprints section-block">
     <header class="section-heading"><div><p class="eyebrow">활용 청사진</p><h2>생활 문제에서 역으로 찾기</h2></div><a href={`${base}/blueprints/`}>6개 모두 보기 →</a></header>
     <div class="blueprint-strip">{catalog.blueprints.slice(0, 3).map((blueprint, index) => <a href={`${base}/blueprints/${blueprint.id}/`}><span>BP-{String(index + 1).padStart(2, "0")}</span><h3>{blueprint.name}</h3><p>{blueprint.problem}</p><small>{blueprint.sourceIds.length}개 정보원 조합</small></a>)}</div>

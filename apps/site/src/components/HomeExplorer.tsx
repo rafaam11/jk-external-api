@@ -12,22 +12,22 @@ const lineColors: Record<string, string> = {
   weather: "#2357A5", environment: "#687C46", mobility: "#BA3A36", geospatial: "#725792", place: "#9C5C27", search: "#687C46", health: "#BA3A36", culture: "#725792",
 };
 
-export default function AtlasExplorer({ sources, skills, blueprints, technologies, base }: Props) {
+export default function HomeExplorer({ sources, skills, blueprints, technologies, base }: Props) {
   const [filters, setFilters] = useState<SourceFilters>({});
   const [selectedId, setSelectedId] = useState(sources[0]?.id ?? "");
   const [comparison, setComparison] = useState<string[]>([]);
-  const [viewMode, setViewMode] = useState<"list" | "atlas">("list");
+  const [viewMode, setViewMode] = useState<"list" | "home">("list");
   const technologyNames = Object.fromEntries(technologies.map(({ id, name }) => [id, name]));
   const matches = useMemo(() => filterSources(sources, { ...filters, technologyNames }), [sources, filters]);
   const selected = sources.find(({ id }) => id === selectedId) ?? matches[0] ?? sources[0];
   const domains = [...new Set(sources.flatMap(({ domains: values }) => values))].sort();
-  const lineGroups = [...new Set(sources.flatMap(({ atlas }) => atlas.lines))].map((line) => ({ line, points: sources.filter(({ atlas }) => atlas.lines.includes(line)).map(({ atlas }) => `${atlas.x},${atlas.y}`).join(" ") }));
+  const lineGroups = [...new Set(sources.flatMap(({ home }) => home.lines))].map((line) => ({ line, points: sources.filter(({ home }) => home.lines.includes(line)).map(({ home }) => `${home.x},${home.y}`).join(" ") }));
 
   const update = (key: keyof SourceFilters, value: string) => setFilters((current) => ({ ...current, [key]: value || undefined }));
   const toggleComparison = (id: string) => setComparison((current) => current.includes(id) ? removeFromComparison(current, id) : addToComparison(current, id));
 
-  return <section class="atlas-shell" aria-label="정보원 Atlas 탐색기">
-    <div class="atlas-toolbar">
+  return <section class="home-shell" aria-label="정보원 홈 탐색기">
+    <div class="home-toolbar">
       <label class="search-field"><span>통합 검색</span><input type="search" value={filters.query ?? ""} onInput={(event) => update("query", event.currentTarget.value)} placeholder="예: 미세먼지, 공연장, REST API" /></label>
       <div class="filter-row" aria-label="정보원 필터">
         <label>분야<select value={filters.domain ?? ""} onChange={(event) => update("domain", event.currentTarget.value)}><option value="">전체</option>{domains.map((domain) => <option value={domain}>{formatDomain(domain)}</option>)}</select></label>
@@ -40,34 +40,34 @@ export default function AtlasExplorer({ sources, skills, blueprints, technologie
 
     <div class="view-switch" role="group" aria-label="정보원 보기 방식">
       <button type="button" aria-pressed={viewMode === "list"} onClick={() => setViewMode("list")}>목록</button>
-      <button type="button" aria-pressed={viewMode === "atlas"} onClick={() => setViewMode("atlas")}>관계도</button>
+      <button type="button" aria-pressed={viewMode === "home"} onClick={() => setViewMode("home")}>관계도</button>
       <span>{matches.length} / {sources.length}개 정보원</span>
     </div>
 
-    {viewMode === "list" ? <RegistryTable kind="source" catalog={{ sources, technologies, skills, blueprints }} records={matches} base={base} toolbar={false} /> : <div class="atlas-grid">
+    {viewMode === "list" ? <RegistryTable kind="source" catalog={{ sources, technologies, skills, blueprints }} records={matches} base={base} toolbar={false} /> : <div class="home-grid">
       <aside class="source-rail" aria-label={`검색 결과 ${matches.length}개`}>
         <div class="panel-heading"><span>정보원 레일</span><strong>{String(matches.length).padStart(2, "0")}</strong></div>
         <ol>{matches.map((source) => <li><button class={selected?.id === source.id ? "selected" : ""} onClick={() => setSelectedId(source.id)}><span class="rail-code">{formatDomain(source.domains[0] ?? "")}</span><span><strong>{source.name}</strong><small>{source.operator}</small></span></button></li>)}</ol>
         {matches.length === 0 && <p class="empty-state">조건과 맞는 정보원이 없습니다. 필터를 하나씩 해제해 보세요.</p>}
       </aside>
 
-      <div class="atlas-map-wrap">
+      <div class="home-map-wrap">
         <div class="panel-heading"><span>관계 노선도</span><small>분야선은 정보원 간 주제 연결을 뜻합니다</small></div>
-        <svg class="atlas-map" viewBox="0 0 100 100" role="img" aria-labelledby="atlas-title atlas-desc">
-          <title id="atlas-title">한국 외부 정보원 관계 노선도</title><desc id="atlas-desc">14개 정보원이 분야별 색 노선으로 연결되어 있습니다. 뒤의 텍스트 목록에서도 같은 정보를 탐색할 수 있습니다.</desc>
-          <g class="atlas-lines">{lineGroups.map(({ line, points }) => points.includes(" ") && <polyline points={points} fill="none" stroke={lineColors[line] ?? "#687C46"} stroke-width="1.25" stroke-linecap="square" stroke-linejoin="bevel" />)}</g>
+        <svg class="home-map" viewBox="0 0 100 100" role="img" aria-labelledby="home-title home-desc">
+          <title id="home-title">한국 외부 정보원 관계 노선도</title><desc id="home-desc">14개 정보원이 분야별 색 노선으로 연결되어 있습니다. 뒤의 텍스트 목록에서도 같은 정보를 탐색할 수 있습니다.</desc>
+          <g class="home-lines">{lineGroups.map(({ line, points }) => points.includes(" ") && <polyline points={points} fill="none" stroke={lineColors[line] ?? "#687C46"} stroke-width="1.25" stroke-linecap="square" stroke-linejoin="bevel" />)}</g>
           {sources.map((source) => {
             const active = matches.some(({ id }) => id === source.id);
             const selectedNode = selected?.id === source.id;
-            return <g transform={`translate(${source.atlas.x} ${source.atlas.y})`}>
-              <a href={`${base}/sources/${source.id}/`} class={`atlas-node ${active ? "active" : "muted"} ${selectedNode ? "selected" : ""}`} role="button" tabIndex={active ? 0 : -1} aria-label={`${source.name} 선택`} aria-pressed={selectedNode} onClick={(event) => { event.preventDefault(); if (active) setSelectedId(source.id); }}>
-                <circle r={selectedNode ? 3.2 : 2.4} fill="#FBFBFC" stroke={lineColors[source.atlas.lines[0] ?? ""] ?? "#2357A5"} stroke-width={selectedNode ? 1.4 : 0.9} />
+            return <g transform={`translate(${source.home.x} ${source.home.y})`}>
+              <a href={`${base}/sources/${source.id}/`} class={`home-node ${active ? "active" : "muted"} ${selectedNode ? "selected" : ""}`} role="button" tabIndex={active ? 0 : -1} aria-label={`${source.name} 선택`} aria-pressed={selectedNode} onClick={(event) => { event.preventDefault(); if (active) setSelectedId(source.id); }}>
+                <circle r={selectedNode ? 3.2 : 2.4} fill="#FBFBFC" stroke={lineColors[source.home.lines[0] ?? ""] ?? "#2357A5"} stroke-width={selectedNode ? 1.4 : 0.9} />
                 <text x="3.8" y="1.1">{source.name}</text>
               </a>
             </g>;
           })}
         </svg>
-        <div class="mobile-source-list" aria-label="노선도의 텍스트 대체 목록">{matches.map((source) => <button onClick={() => setSelectedId(source.id)} aria-pressed={selected?.id === source.id}><span aria-hidden="true" style={{ color: lineColors[source.atlas.lines[0] ?? ""] }}>●</span> {source.name} <small>{formatDomains(source.domains)}</small></button>)}</div>
+        <div class="mobile-source-list" aria-label="노선도의 텍스트 대체 목록">{matches.map((source) => <button onClick={() => setSelectedId(source.id)} aria-pressed={selected?.id === source.id}><span aria-hidden="true" style={{ color: lineColors[source.home.lines[0] ?? ""] }}>●</span> {source.name} <small>{formatDomains(source.domains)}</small></button>)}</div>
       </div>
 
       <aside class="source-dossier" aria-live="polite">
