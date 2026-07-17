@@ -1,9 +1,10 @@
 ---
 import { catalog } from "@jk-external-api/catalog";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import RegistryTable from "../../components/RegistryTable";
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 <BaseLayout title="프로젝트 청사진">
-  <header class="page-header"><p class="eyebrow">Blueprint register / 06</p><h1>생활 문제 청사진</h1><p>데이터를 나열하는 대신, 실제 사용자의 문제에서 필요한 정보원 조합으로 거슬러 올라갑니다.</p></header>
-  <section class="blueprint-list">{catalog.blueprints.map((blueprint, index) => <a href={`${base}/blueprints/${blueprint.id}/`}><span class="record-number">BP-{String(index + 1).padStart(2, "0")}</span><div><h2>{blueprint.name}</h2><p>{blueprint.problem}</p><ul>{blueprint.sourceIds.map((id) => <li>{catalog.sources.find((source) => source.id === id)?.name}</li>)}</ul></div><span class="arrow-link">→</span></a>)}</section>
+  <header class="page-header"><p class="eyebrow">Blueprint register / 06</p><h1>생활 문제 청사진</h1><p>해결 문제, 정보원 조합과 주요 출력을 빠르게 확인합니다.</p></header>
+  <RegistryTable client:load kind="blueprint" catalog={catalog} base={base} />
 </BaseLayout>

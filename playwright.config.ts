@@ -14,7 +14,8 @@ export default defineConfig({
     { name: "mobile", use: { viewport: { width: 360, height: 800 }, isMobile: true } },
   ],
   webServer: {
-    command: "corepack pnpm --filter @jk-external-api/site preview --host 127.0.0.1 --port 4321",
+    command: "node node_modules/astro/astro.js preview --host 127.0.0.1 --port 4321",
+    cwd: "apps/site",
     url: "http://127.0.0.1:4321/jk-external-api/",
     reuseExistingServer: process.env.PLAYWRIGHT_REUSE_SERVER === "1",
     timeout: 120_000,

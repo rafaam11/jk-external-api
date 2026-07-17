@@ -1,19 +1,21 @@
 import { useMemo, useState } from "preact/hooks";
-import type { Source, Technology } from "@jk-external-api/catalog";
+import type { Blueprint, Skill, Source, Technology } from "@jk-external-api/catalog";
 import { addToComparison, filterSources, removeFromComparison, type SourceFilters } from "../lib/discovery.js";
 import { StatusMark } from "./StatusMark.js";
+import RegistryTable from "./RegistryTable.js";
 
-type Props = { sources: Source[]; technologies: Technology[]; base: string };
+type Props = { sources: Source[]; skills: Skill[]; blueprints: Blueprint[]; technologies: Technology[]; base: string };
 
 const lineColors: Record<string, string> = {
   public: "#2357A5", facility: "#687C46", statistics: "#725792", seoul: "#BA3A36", local: "#9C5C27", business: "#9C5C27",
   weather: "#2357A5", environment: "#687C46", mobility: "#BA3A36", geospatial: "#725792", place: "#9C5C27", search: "#687C46", health: "#BA3A36", culture: "#725792",
 };
 
-export default function AtlasExplorer({ sources, technologies, base }: Props) {
+export default function AtlasExplorer({ sources, skills, blueprints, technologies, base }: Props) {
   const [filters, setFilters] = useState<SourceFilters>({});
   const [selectedId, setSelectedId] = useState(sources[0]?.id ?? "");
   const [comparison, setComparison] = useState<string[]>([]);
+  const [viewMode, setViewMode] = useState<"list" | "atlas">("list");
   const technologyNames = Object.fromEntries(technologies.map(({ id, name }) => [id, name]));
   const matches = useMemo(() => filterSources(sources, { ...filters, technologyNames }), [sources, filters]);
   const selected = sources.find(({ id }) => id === selectedId) ?? matches[0] ?? sources[0];
@@ -35,7 +37,13 @@ export default function AtlasExplorer({ sources, technologies, base }: Props) {
       </div>
     </div>
 
-    <div class="atlas-grid">
+    <div class="view-switch" role="group" aria-label="정보원 보기 방식">
+      <button type="button" aria-pressed={viewMode === "list"} onClick={() => setViewMode("list")}>목록</button>
+      <button type="button" aria-pressed={viewMode === "atlas"} onClick={() => setViewMode("atlas")}>관계도</button>
+      <span>{matches.length} / {sources.length}개 정보원</span>
+    </div>
+
+    {viewMode === "list" ? <RegistryTable kind="source" catalog={{ sources, technologies, skills, blueprints }} records={matches} base={base} toolbar={false} /> : <div class="atlas-grid">
       <aside class="source-rail" aria-label={`검색 결과 ${matches.length}개`}>
         <div class="panel-heading"><span>정보원 레일</span><strong>{String(matches.length).padStart(2, "0")}</strong></div>
         <ol>{matches.map((source) => <li><button class={selected?.id === source.id ? "selected" : ""} onClick={() => setSelectedId(source.id)}><span class="rail-code">{source.domains[0]?.slice(0, 3).toUpperCase()}</span><span><strong>{source.name}</strong><small>{source.operator}</small></span></button></li>)}</ol>
@@ -50,9 +58,11 @@ export default function AtlasExplorer({ sources, technologies, base }: Props) {
           {sources.map((source) => {
             const active = matches.some(({ id }) => id === source.id);
             const selectedNode = selected?.id === source.id;
-            return <g class={`atlas-node ${active ? "active" : "muted"} ${selectedNode ? "selected" : ""}`} role="button" tabIndex={active ? 0 : -1} aria-label={`${source.name} 선택`} aria-pressed={selectedNode} onClick={() => active && setSelectedId(source.id)} onKeyDown={(event) => { if (active && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); setSelectedId(source.id); } }} transform={`translate(${source.atlas.x} ${source.atlas.y})`}>
-              <circle r={selectedNode ? 3.2 : 2.4} fill="#FBFBFC" stroke={lineColors[source.atlas.lines[0] ?? ""] ?? "#2357A5"} stroke-width={selectedNode ? 1.4 : 0.9} />
-              <text x="3.8" y="1.1">{source.name}</text>
+            return <g transform={`translate(${source.atlas.x} ${source.atlas.y})`}>
+              <a href={`${base}/sources/${source.id}/`} class={`atlas-node ${active ? "active" : "muted"} ${selectedNode ? "selected" : ""}`} role="button" tabIndex={active ? 0 : -1} aria-label={`${source.name} 선택`} aria-pressed={selectedNode} onClick={(event) => { event.preventDefault(); if (active) setSelectedId(source.id); }}>
+                <circle r={selectedNode ? 3.2 : 2.4} fill="#FBFBFC" stroke={lineColors[source.atlas.lines[0] ?? ""] ?? "#2357A5"} stroke-width={selectedNode ? 1.4 : 0.9} />
+                <text x="3.8" y="1.1">{source.name}</text>
+              </a>
             </g>;
           })}
         </svg>
@@ -68,7 +78,7 @@ export default function AtlasExplorer({ sources, technologies, base }: Props) {
           <div class="dossier-actions"><a class="button primary" href={`${base}/sources/${selected.id}/`}>상세 기록</a><button class="button" onClick={() => toggleComparison(selected.id)} disabled={!comparison.includes(selected.id) && comparison.length >= 4}>{comparison.includes(selected.id) ? "비교에서 빼기" : "비교에 담기"}</button></div>
         </div>}
       </aside>
-    </div>
+    </div>}
     <div class={`comparison-dock ${comparison.length ? "visible" : ""}`} aria-live="polite"><span>비교함 {comparison.length}/4</span><span>{comparison.map((id) => sources.find((source) => source.id === id)?.name).join(" · ")}</span><a href={`${base}/compare/?ids=${comparison.join(",")}`}>비교표 열기</a></div>
   </section>;
 }
