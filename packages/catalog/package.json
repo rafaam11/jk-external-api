@@ -1,0 +1,25 @@
+{
+  "name": "@k-source-atlas/catalog",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./catalog.json": "./src/generated/catalog.json"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json",
+    "sync": "tsx src/sync/cli.ts",
+    "generate": "tsx src/generate.ts"
+  },
+  "dependencies": {
+    "yaml": "^2.8.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.6",
+    "vitest": "^4.1.10"
+  }
+}
