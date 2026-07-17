@@ -5,13 +5,13 @@
   "packageManager": "pnpm@10.28.2",
   "engines": { "node": ">=24" },
   "scripts": {
-    "build": "corepack pnpm -r build",
+    "build": "corepack pnpm --workspace-concurrency=1 -r build",
     "check": "corepack pnpm lint && corepack pnpm typecheck && corepack pnpm test && corepack pnpm build",
     "e2e": "playwright test",
     "links": "node scripts/check-internal-links.mjs",
     "lint": "eslint .",
-    "test": "corepack pnpm -r test",
-    "typecheck": "corepack pnpm -r typecheck"
+    "test": "corepack pnpm --workspace-concurrency=1 -r test",
+    "typecheck": "corepack pnpm --workspace-concurrency=1 -r typecheck"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",
