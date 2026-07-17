@@ -1,6 +1,7 @@
 import { useMemo, useState } from "preact/hooks";
 import type { Blueprint, Skill, Source, Technology } from "@jk-external-api/catalog";
 import { addToComparison, filterSources, removeFromComparison, type SourceFilters } from "../lib/discovery.js";
+import { formatDomain, formatDomains } from "../lib/labels.js";
 import { StatusMark } from "./StatusMark.js";
 import RegistryTable from "./RegistryTable.js";
 
@@ -29,7 +30,7 @@ export default function AtlasExplorer({ sources, skills, blueprints, technologie
     <div class="atlas-toolbar">
       <label class="search-field"><span>통합 검색</span><input type="search" value={filters.query ?? ""} onInput={(event) => update("query", event.currentTarget.value)} placeholder="예: 미세먼지, 공연장, REST API" /></label>
       <div class="filter-row" aria-label="정보원 필터">
-        <label>분야<select value={filters.domain ?? ""} onChange={(event) => update("domain", event.currentTarget.value)}><option value="">전체</option>{domains.map((domain) => <option value={domain}>{domain}</option>)}</select></label>
+        <label>분야<select value={filters.domain ?? ""} onChange={(event) => update("domain", event.currentTarget.value)}><option value="">전체</option>{domains.map((domain) => <option value={domain}>{formatDomain(domain)}</option>)}</select></label>
         <label>제공 방식<select value={filters.delivery ?? ""} onChange={(event) => update("delivery", event.currentTarget.value)}><option value="">전체</option><option value="open-api">Open API</option><option value="file">파일</option><option value="sdk">SDK</option></select></label>
         <label>인증<select value={filters.auth ?? ""} onChange={(event) => update("auth", event.currentTarget.value)}><option value="">전체</option><option value="none">없음</option><option value="api-key">API 키</option><option value="mixed">혼합</option></select></label>
         <label>실시간성<select value={filters.realtime ?? ""} onChange={(event) => update("realtime", event.currentTarget.value)}><option value="">전체</option><option value="realtime">실시간</option><option value="minutes">분 단위</option><option value="hourly">시간 단위</option><option value="daily">일 단위</option><option value="periodic">주기 갱신</option></select></label>
@@ -46,7 +47,7 @@ export default function AtlasExplorer({ sources, skills, blueprints, technologie
     {viewMode === "list" ? <RegistryTable kind="source" catalog={{ sources, technologies, skills, blueprints }} records={matches} base={base} toolbar={false} /> : <div class="atlas-grid">
       <aside class="source-rail" aria-label={`검색 결과 ${matches.length}개`}>
         <div class="panel-heading"><span>정보원 레일</span><strong>{String(matches.length).padStart(2, "0")}</strong></div>
-        <ol>{matches.map((source) => <li><button class={selected?.id === source.id ? "selected" : ""} onClick={() => setSelectedId(source.id)}><span class="rail-code">{source.domains[0]?.slice(0, 3).toUpperCase()}</span><span><strong>{source.name}</strong><small>{source.operator}</small></span></button></li>)}</ol>
+        <ol>{matches.map((source) => <li><button class={selected?.id === source.id ? "selected" : ""} onClick={() => setSelectedId(source.id)}><span class="rail-code">{formatDomain(source.domains[0] ?? "")}</span><span><strong>{source.name}</strong><small>{source.operator}</small></span></button></li>)}</ol>
         {matches.length === 0 && <p class="empty-state">조건과 맞는 정보원이 없습니다. 필터를 하나씩 해제해 보세요.</p>}
       </aside>
 
@@ -66,13 +67,13 @@ export default function AtlasExplorer({ sources, skills, blueprints, technologie
             </g>;
           })}
         </svg>
-        <div class="mobile-source-list" aria-label="노선도의 텍스트 대체 목록">{matches.map((source) => <button onClick={() => setSelectedId(source.id)} aria-pressed={selected?.id === source.id}><span aria-hidden="true" style={{ color: lineColors[source.atlas.lines[0] ?? ""] }}>●</span> {source.name} <small>{source.domains.join(" · ")}</small></button>)}</div>
+        <div class="mobile-source-list" aria-label="노선도의 텍스트 대체 목록">{matches.map((source) => <button onClick={() => setSelectedId(source.id)} aria-pressed={selected?.id === source.id}><span aria-hidden="true" style={{ color: lineColors[source.atlas.lines[0] ?? ""] }}>●</span> {source.name} <small>{formatDomains(source.domains)}</small></button>)}</div>
       </div>
 
       <aside class="source-dossier" aria-live="polite">
         <div class="panel-heading"><span>선택 기록</span><small>{selected?.id}</small></div>
         {selected && <div class="dossier-content">
-          <p class="record-kicker">{selected.domains.join(" / ")}</p><h2>{selected.name}</h2><p>{selected.summary}</p>
+          <p class="record-kicker">{formatDomains(selected.domains, " / ")}</p><h2>{selected.name}</h2><p>{selected.summary}</p>
           <div class="status-stack"><StatusMark kind="auth" value={selected.auth} /><StatusMark kind="freshness" value={selected.updateFrequency} /><StatusMark kind="preview" value={selected.previewAdapterId ? "사용 가능" : "원문 확인"} /></div>
           <dl><div><dt>운영기관</dt><dd>{selected.operator}</dd></div><div><dt>형식</dt><dd>{selected.formats.join(" · ")}</dd></div><div><dt>범위</dt><dd>{selected.geography.join(" · ")}</dd></div><div><dt>확인일</dt><dd>{selected.lastVerifiedAt}</dd></div></dl>
           <div class="dossier-actions"><a class="button primary" href={`${base}/sources/${selected.id}/`}>상세 기록</a><button class="button" onClick={() => toggleComparison(selected.id)} disabled={!comparison.includes(selected.id) && comparison.length >= 4}>{comparison.includes(selected.id) ? "비교에서 빼기" : "비교에 담기"}</button></div>

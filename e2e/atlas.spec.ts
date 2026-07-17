@@ -1,6 +1,22 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+test("registry categories use Korean labels without changing filter values", async ({ page }) => {
+  await page.goto("./sources/");
+  const domain = page.getByRole("combobox", { name: "분야", exact: true });
+  await expect(domain.getByRole("option", { name: "교통" })).toHaveAttribute("value", "mobility");
+  await domain.selectOption("mobility");
+  await expect(page.getByRole("table", { name: "정보원 레지스트리" })).toContainText("교통");
+  await expect(page.getByRole("table", { name: "정보원 레지스트리" })).not.toContainText("mobility");
+
+  await page.goto("./technologies/");
+  await expect(page.getByRole("table", { name: "기술 레지스트리" })).toContainText("프로토콜");
+
+  await page.goto("./skills/");
+  const category = page.getByRole("combobox", { name: "분류", exact: true });
+  await expect(category.getByRole("option", { name: "법률 문서" })).toHaveAttribute("value", "legal-documents");
+});
+
 test("search, compound filters, and Atlas selection stay connected", async ({ page }) => {
   await page.goto("./");
   await page.getByLabel("통합 검색").fill("미세먼지");

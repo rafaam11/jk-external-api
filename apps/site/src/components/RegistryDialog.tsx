@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import type { Catalog } from "@jk-external-api/catalog";
+import { formatSkillCategory, formatTechnologyCategory } from "../lib/labels.js";
 import { parseRegistryView, serializeRegistryView, type RegistryKind, type RegistryView } from "../lib/registry.js";
 
 type Props = {
@@ -111,7 +112,7 @@ export default function RegistryDialog({ catalog, base, view, onRequestClose }: 
           ]} />
         </>}
         {skill && <>
-          <div><dt>분류</dt><dd>{skill.category}</dd></div><div><dt>실행 환경</dt><dd>{skill.runtimes.join(" · ") || "문서 확인"}</dd></div><div><dt>인증 단서</dt><dd>{skill.auth.join(" · ") || "없음"}</dd></div>
+          <div><dt>분류</dt><dd>{formatSkillCategory(skill.category)}</dd></div><div><dt>실행 환경</dt><dd>{skill.runtimes.join(" · ") || "문서 확인"}</dd></div><div><dt>인증 단서</dt><dd>{skill.auth.join(" · ") || "없음"}</dd></div>
           <RelationList title="연결 정보원" items={catalog.sources.filter((item) => skill.sourceIds.includes(item.id)).map((item) => ({ id: item.id, name: item.name, href: `${base}/sources/${item.id}/` }))} />
         </>}
         {blueprint && <>
@@ -119,7 +120,7 @@ export default function RegistryDialog({ catalog, base, view, onRequestClose }: 
           <RelationList title="연결 정보원" items={catalog.sources.filter((item) => blueprint.sourceIds.includes(item.id)).map((item) => ({ id: item.id, name: item.name, href: `${base}/sources/${item.id}/` }))} />
         </>}
         {technology && <>
-          <div><dt>분류</dt><dd>{technology.category}</dd></div><div><dt>정보원</dt><dd>{catalog.sources.filter((item) => item.technologyIds.includes(technology.id)).length}개</dd></div><div><dt>k-skill</dt><dd>{catalog.skills.filter((item) => item.technologyIds.includes(technology.id)).length}개</dd></div>
+          <div><dt>분류</dt><dd>{formatTechnologyCategory(technology.category)}</dd></div><div><dt>정보원</dt><dd>{catalog.sources.filter((item) => item.technologyIds.includes(technology.id)).length}개</dd></div><div><dt>k-skill</dt><dd>{catalog.skills.filter((item) => item.technologyIds.includes(technology.id)).length}개</dd></div>
           <RelationList title="연결 정보원" items={catalog.sources.filter((item) => item.technologyIds.includes(technology.id)).map((item) => ({ id: item.id, name: item.name, href: `${base}/sources/${item.id}/` }))} />
         </>}
       </dl>

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "preact/hooks";
 import type { Blueprint, Catalog, Skill, Source, Technology } from "@jk-external-api/catalog";
+import { formatDomains, formatDomain, formatSkillCategory, formatTechnologyCategory } from "../lib/labels.js";
 import { deriveRegistryPage, type RegistryKind, type RegistryRowData, type RegistrySort } from "../lib/registry.js";
 import RegistryDialog, { useRegistryDialog } from "./RegistryDialog.js";
 
@@ -45,7 +46,7 @@ function toRows(kind: RegistryKind, records: RegistryRecord[], catalog: Catalog)
 function columnsFor(kind: RegistryKind, catalog: Catalog): Column[] {
   if (kind === "source") return [
     { key: "name", label: "이름", value: ({ record }) => (record as Source).name },
-    { key: "category", label: "분야", value: ({ record }) => (record as Source).domains.join(" · ") },
+    { key: "category", label: "분야", value: ({ record }) => formatDomains((record as Source).domains) },
     { key: "auth", label: "인증", value: ({ record }) => (record as Source).auth },
     { key: "update", label: "갱신", low: true, value: ({ record }) => (record as Source).updateFrequency },
     { key: "formats", label: "형식", low: true, value: ({ record }) => (record as Source).formats.join(" · ") },
@@ -53,7 +54,7 @@ function columnsFor(kind: RegistryKind, catalog: Catalog): Column[] {
   ];
   if (kind === "skill") return [
     { key: "name", label: "이름", value: ({ record }) => (record as Skill).name },
-    { key: "category", label: "분류", value: ({ record }) => (record as Skill).category },
+    { key: "category", label: "분류", value: ({ record }) => formatSkillCategory((record as Skill).category) },
     { key: "runtime", label: "실행 환경", low: true, value: ({ record }) => (record as Skill).runtimes.join(" · ") || "문서 확인" },
     { key: "auth", label: "인증 단서", low: true, value: ({ record }) => (record as Skill).auth.join(" · ") || "없음" },
     { key: "sources", label: "연결 정보원", value: ({ record }) => `${(record as Skill).sourceIds.length}개` },
@@ -66,7 +67,7 @@ function columnsFor(kind: RegistryKind, catalog: Catalog): Column[] {
   ];
   return [
     { key: "name", label: "이름", value: ({ record }) => (record as Technology).name },
-    { key: "category", label: "분류", value: ({ record }) => (record as Technology).category },
+    { key: "category", label: "분류", value: ({ record }) => formatTechnologyCategory((record as Technology).category) },
     { key: "sources", label: "정보원", value: ({ record }) => `${catalog.sources.filter((source) => source.technologyIds.includes(record.id)).length}개` },
     { key: "skills", label: "k-skill", value: ({ record }) => `${catalog.skills.filter((skill) => skill.technologyIds.includes(record.id)).length}개` },
   ];
@@ -84,6 +85,11 @@ export default function RegistryTable({ kind, catalog, base, records, toolbar = 
   const dialog = useRegistryDialog(catalog);
   const categories = [...new Set(rows.flatMap((row) => { const value = row.fields.category; return Array.isArray(value) ? value : value ? [value] : []; }))].filter(Boolean).sort();
   const result = deriveRegistryPage(rows, { query, filters: { category }, sort, page, pageSize });
+  const categoryLabel = (value: string) => kind === "source" || kind === "blueprint"
+    ? formatDomain(value)
+    : kind === "skill"
+      ? formatSkillCategory(value)
+      : formatTechnologyCategory(value);
 
   const changeSort = (key: string) => {
     setSort((current) => current.key === key ? { key, direction: current.direction === "asc" ? "desc" : "asc" } : { key, direction: "asc" });
@@ -93,7 +99,7 @@ export default function RegistryTable({ kind, catalog, base, records, toolbar = 
   return <section class="registry" aria-label={`${kindLabels[kind]} 레지스트리 영역`}>
     {toolbar && <div class="registry-toolbar">
       <label><span>목록 검색</span><input type="search" value={query} onInput={(event) => { setQuery(event.currentTarget.value); setPage(1); }} placeholder={`${kindLabels[kind]} 이름·설명 검색`} /></label>
-      <label><span>{kind === "source" ? "분야" : "분류"}</span><select value={category} onChange={(event) => { setCategory(event.currentTarget.value); setPage(1); }}><option value="">전체</option>{categories.map((item) => <option value={item} key={item}>{item}</option>)}</select></label>
+      <label><span>{kind === "source" ? "분야" : "분류"}</span><select value={category} onChange={(event) => { setCategory(event.currentTarget.value); setPage(1); }}><option value="">전체</option>{categories.map((item) => <option value={item} key={item}>{categoryLabel(item)}</option>)}</select></label>
       <p class="registry-count"><strong>{result.totalItems}</strong> / {rows.length}개 기록</p>
     </div>}
     <div class="registry-table-wrap">
