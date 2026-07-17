@@ -1,0 +1,11 @@
+---
+import { catalog } from "@k-source-atlas/catalog";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const categories = [...new Set(catalog.skills.map(({ category }) => category))].sort();
+---
+<BaseLayout title="k-skill 색인">
+  <header class="page-header"><p class="eyebrow">Upstream snapshot / {catalog.skills.length}</p><h1>k-skill 전체 색인</h1><p>NomaDamas/k-skill의 활성 문서와 legacy 기록을 경로·frontmatter 기준으로 생성한 스냅샷입니다.</p></header>
+  <nav class="category-index" aria-label="분류 바로가기">{categories.map((category) => <a href={`#${category}`}>{category}</a>)}</nav>
+  {categories.map((category) => <section class="skill-category" id={category}><header><h2>{category}</h2><span>{catalog.skills.filter((skill) => skill.category === category).length}</span></header><div class="skill-grid">{catalog.skills.filter((skill) => skill.category === category).map((skill) => <a href={`${base}/skills/${skill.id}/`}><h3>{skill.name}</h3><p>{skill.description}</p><small>{skill.runtimes.join(" · ")}</small></a>)}</div></section>)}
+</BaseLayout>

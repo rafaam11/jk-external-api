@@ -1,0 +1,9 @@
+---
+import { catalog } from "@k-source-atlas/catalog";
+import BaseLayout from "../layouts/BaseLayout.astro";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+<BaseLayout title="기술 연결표">
+  <header class="page-header"><p class="eyebrow">Technology register / {catalog.technologies.length}</p><h1>기술 연결표</h1><p>정보원에 접근할 때 실제로 만나는 프로토콜, 형식, 인증과 구조입니다.</p></header>
+  <section class="technology-list">{catalog.technologies.map((technology) => { const sources = catalog.sources.filter((source) => source.technologyIds.includes(technology.id)); const skills = catalog.skills.filter((skill) => skill.technologyIds.includes(technology.id)); return <article id={technology.id}><div><p class="record-kicker">{technology.category}</p><h2>{technology.name}</h2><p>{technology.summary}</p></div><div><strong>{sources.length}</strong><span>정보원</span></div><div><strong>{skills.length}</strong><span>k-skill</span></div><details><summary>연결 기록 보기</summary><div>{sources.map((source) => <a href={`${base}/sources/${source.id}/`}>{source.name}</a>)}{skills.map((skill) => <a href={`${base}/skills/${skill.id}/`}>{skill.name}</a>)}</div></details></article>; })}</section>
+</BaseLayout>

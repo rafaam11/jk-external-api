@@ -1,0 +1,24 @@
+{
+  "name": "@k-source-atlas/site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "astro build",
+    "dev": "astro dev",
+    "preview": "astro preview",
+    "test": "vitest run",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/preact": "^4.1.3",
+    "@k-source-atlas/catalog": "workspace:*",
+    "astro": "^5.16.5",
+    "fuse.js": "^7.1.0",
+    "preact": "^10.29.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.5",
+    "vitest": "^4.1.10"
+  }
+}

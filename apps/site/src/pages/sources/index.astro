@@ -1,0 +1,10 @@
+---
+import { catalog } from "@k-source-atlas/catalog";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { StatusMark } from "../../components/StatusMark";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+<BaseLayout title="정보원 기록">
+  <header class="page-header"><p class="eyebrow">Source register / 14</p><h1>정보원 기록</h1><p>운영기관, 제공 방식, 인증, 갱신 주기와 이용조건을 먼저 확인하세요.</p></header>
+  <section class="record-list" aria-label="정보원 목록">{catalog.sources.map((source, index) => <article class="record-row"><span class="record-number">{String(index + 1).padStart(2, "0")}</span><div><p class="record-kicker">{source.domains.join(" / ")}</p><h2><a href={`${base}/sources/${source.id}/`}>{source.name}</a></h2><p>{source.summary}</p></div><div class="record-meta"><StatusMark kind="auth" value={source.auth} /><StatusMark kind="freshness" value={source.updateFrequency} /><span>{source.formats.join(" · ")}</span></div><a class="arrow-link" href={`${base}/sources/${source.id}/`} aria-label={`${source.name} 상세 기록`}>→</a></article>)}</section>
+</BaseLayout>
